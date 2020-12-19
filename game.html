@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--font-awesome-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <!--bootstarp link-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <!--javascript link-->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+    
+    <title>Fun games online</title>
+    <style>
+      body{
+       background: #222831;
+      font-family:sans-serif;
+      }
+
+     form{
+     text-align:center;
+       }
+
+     #restart {
+  -webkit-appearance:none;
+  -moz-appearance:none;
+  background-color:#f30e5c;
+  border:none;
+  border-radius:2vmin;
+  color:#E9967A;
+  font-size:4vmin;
+  margin:.5em 0;
+  padding:.75em;
+  transition:opacity .2s linear;
+  width:calc(80vmin + 2px);
+   }
+
+.board {
+  display: grid;
+  grid-gap: 3px;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
+  height:80vmin;
+  margin:0 auto;
+  padding:2px;
+  width:80vmin;
+}
+
+.square {
+  background-color:#f2f2f2;
+  border:solid 5px #f2f2f2;
+  border-radius:2vmin;
+  position:relative;
+}
+
+.square > label {
+  bottom:0;
+  display:block;
+  left:0;
+  position:absolute;
+  right:0;
+  top:0;
+}
+
+.square > span {  
+  border-radius:2vmin;
+  bottom:0;
+  display:none;
+  font-size:20vmin;
+  font-weight:bold;
+  left:0;
+  line-height:25vmin;
+  position:absolute;
+  right:0;
+  text-align:center;
+  top:0;
+}
+
+.square > span.nought {
+  background-color:#f30e5c;
+  color:#222;
+}
+
+.square > span.cross {
+  background-color:#f30e5c;
+  color:#222;
+}
+
+@keyframes pulse {
+  100% {
+    background-color:#54e346;
+    color:#000;
+  }
+}
+
+/* display/visibility logic */
+
+input[type=radio] {
+  display:none;
+}
+
+/* restart button */
+button[type=reset] {
+  opacity:0;
+}
+:checked ~ button[type=reset] {
+  opacity:1;
+}
+
+/* turns */
+
+/* default, noughts start */
+label.cross {
+  display:none;
+}
+
+/* after 1st turn */
+.nought:checked ~ .board > .square > label.nought {
+  display:none;
+}
+.nought:checked ~ .board > .square > label.cross {
+  display:block;
+}
+
+/* after 2nd turn */
+.nought:checked ~ .cross:checked ~ .board > .square > label.cross {
+  display:none;
+}
+.nought:checked ~ .cross:checked ~ .board > .square > label.nought {
+  display:block;
+}
+
+/* after 3rd turn */
+.nought:checked ~ .nought:checked ~ .cross:checked ~ .board > .square > label.nought {
+  display:none;
+}
+.nought:checked ~ .nought:checked ~ .cross:checked ~ .board > .square > label.cross {
+  display:block;
+}
+
+/* after 4th turn */
+.nought:checked ~ .nought:checked ~ .cross:checked ~ .cross:checked ~ .board > .square > label.cross {
+  display:none;
+}
+.nought:checked ~ .nought:checked ~ .cross:checked ~ .cross:checked ~ .board > .square > label.nought {
+  display:block;
+}
+
+/* after 5th turn */
+.nought:checked ~ .nought:checked ~ .nought:checked ~ .cross:checked ~ .cross:checked ~ .board > .square > label.nought {
+  display:none;
+}
+.nought:checked ~ .nought:checked ~ .nought:checked ~ .cross:checked ~ .cross:checked ~ .board > .square > label.cross {
+  display:block;
+}
+
+/* after 6th turn */
+.nought:checked ~ .nought:checked ~ .nought:checked ~ .cross:checked ~ .cross:checked ~ .cross:checked ~ .board > .square > label.cross {
+  display:none;
+}
+.nought:checked ~ .nought:checked ~ .nought:checked ~ .cross:checked ~ .cross:checked ~ .cross:checked ~ .board > .square > label.nought {
+  display:block;
+}
+
+/* after 7th turn */
+.nought:checked ~ .nought:checked ~ .nought:checked ~ .nought:checked ~ .cross:checked ~ .cross:checked ~ .cross:checked ~ .board > .square > label.nought {
+  display:none;
+}
+.nought:checked ~ .nought:checked ~ .nought:checked ~ .nought:checked ~ .cross:checked ~ .cross:checked ~ .cross:checked ~ .board > .square > label.cross {
+  display:block;
+}
+
+/* after 8th turn */
+.nought:checked ~ .nought:checked ~ .nought:checked ~ .nought:checked ~ .cross:checked ~ .cross:checked ~ .cross:checked ~ .cross:checked ~ .board > .square > label.cross {
+  display:none;
+}
+.nought:checked ~ .nought:checked ~ .nought:checked ~ .nought:checked ~ .cross:checked ~ .cross:checked ~ .cross:checked ~ .cross:checked ~ .board > .square > label.nought {
+  display:block;
+}
+
+/* reveal nought or cross */
+
+#sq1-o:checked ~ .board > #sq1 > span.nought {
+  display:inline;
+}
+
+#sq1-x:checked ~ .board > #sq1 > span.cross {
+  display:inline;
+}
+
+#sq2-o:checked ~ .board > #sq2 > span.nought {
+  display:inline;
+}
+
+#sq2-x:checked ~ .board > #sq2 > span.cross {
+  display:inline;
+}
+
+#sq3-o:checked ~ .board > #sq3 > span.nought {
+  display:inline;
+}
+
+#sq3-x:checked ~ .board > #sq3 > span.cross {
+  display:inline;
+}
+
+#sq4-o:checked ~ .board > #sq4 > span.nought {
+  display:inline;
+}
+
+#sq4-x:checked ~ .board > #sq4 > span.cross {
+  display:inline;
+}
+
+#sq5-o:checked ~ .board > #sq5 > span.nought {
+  display:inline;
+}
+
+#sq5-x:checked ~ .board > #sq5 > span.cross {
+  display:inline;
+}
+
+#sq6-o:checked ~ .board > #sq6 > span.nought {
+  display:inline;
+}
+
+#sq6-x:checked ~ .board > #sq6 > span.cross {
+  display:inline;
+}
+
+#sq7-o:checked ~ .board > #sq7 > span.nought {
+  display:inline;
+}
+
+#sq7-x:checked ~ .board > #sq7 > span.cross {
+  display:inline;
+}
+
+#sq8-o:checked ~ .board > #sq8 > span.nought {
+  display:inline;
+}
+
+#sq8-x:checked ~ .board > #sq8 > span.cross {
+  display:inline;
+}
+
+#sq9-o:checked ~ .board > #sq9 > span.nought {
+  display:inline;
+}
+
+#sq9-x:checked ~ .board > #sq9 > span.cross {
+  display:inline;
+}
+
+/* winning combinations */
+/* hide all labels, highlight squares */
+
+/* 1, 2, 3 */
+#sq1-o:checked ~ #sq2-o:checked ~ #sq3-o:checked ~ .board > .square > label,
+#sq1-x:checked ~ #sq2-x:checked ~ #sq3-x:checked ~ .board > .square > label {
+  display:none;
+}
+#sq1-o:checked ~ #sq2-o:checked ~ #sq3-o:checked ~ .board > #sq1 > span,
+#sq1-o:checked ~ #sq2-o:checked ~ #sq3-o:checked ~ .board > #sq2 > span,
+#sq1-o:checked ~ #sq2-o:checked ~ #sq3-o:checked ~ .board > #sq3 > span,
+#sq1-x:checked ~ #sq2-x:checked ~ #sq3-x:checked ~ .board > #sq1 > span,
+#sq1-x:checked ~ #sq2-x:checked ~ #sq3-x:checked ~ .board > #sq2 > span,
+#sq1-x:checked ~ #sq2-x:checked ~ #sq3-x:checked ~ .board > #sq3 > span {
+  animation:pulse .5s alternate linear infinite;
+}
+
+/* 4, 5, 6 */
+#sq4-o:checked ~ #sq5-o:checked ~ #sq6-o:checked ~ .board > .square > label,
+#sq4-x:checked ~ #sq5-x:checked ~ #sq6-x:checked ~ .board > .square > label {
+  display:none;
+}
+#sq4-o:checked ~ #sq5-o:checked ~ #sq6-o:checked ~ .board > #sq4 > span,
+#sq4-o:checked ~ #sq5-o:checked ~ #sq6-o:checked ~ .board > #sq5 > span,
+#sq4-o:checked ~ #sq5-o:checked ~ #sq6-o:checked ~ .board > #sq6 > span,
+#sq4-x:checked ~ #sq5-x:checked ~ #sq6-x:checked ~ .board > #sq4 > span,
+#sq4-x:checked ~ #sq5-x:checked ~ #sq6-x:checked ~ .board > #sq5 > span,
+#sq4-x:checked ~ #sq5-x:checked ~ #sq6-x:checked ~ .board > #sq6 > span {
+  animation:pulse .5s alternate linear infinite;
+}
+
+/* 7, 8, 9 */
+#sq7-o:checked ~ #sq8-o:checked ~ #sq9-o:checked ~ .board > .square > label,
+#sq7-x:checked ~ #sq8-x:checked ~ #sq9-x:checked ~ .board > .square > label {
+  display:none;
+}
+#sq7-o:checked ~ #sq8-o:checked ~ #sq9-o:checked ~ .board > #sq7 > span,
+#sq7-o:checked ~ #sq8-o:checked ~ #sq9-o:checked ~ .board > #sq8 > span,
+#sq7-o:checked ~ #sq8-o:checked ~ #sq9-o:checked ~ .board > #sq9 > span,
+#sq7-x:checked ~ #sq8-x:checked ~ #sq9-x:checked ~ .board > #sq7 > span,
+#sq7-x:checked ~ #sq8-x:checked ~ #sq9-x:checked ~ .board > #sq8 > span,
+#sq7-x:checked ~ #sq8-x:checked ~ #sq9-x:checked ~ .board > #sq9 > span {
+  animation:pulse .5s alternate linear infinite;
+}
+
+/* 1, 4, 7 */
+#sq1-o:checked ~ #sq4-o:checked ~ #sq7-o:checked ~ .board > .square > label,
+#sq1-x:checked ~ #sq4-x:checked ~ #sq7-x:checked ~ .board > .square > label {
+  display:none;
+}
+#sq1-o:checked ~ #sq4-o:checked ~ #sq7-o:checked ~ .board > #sq1 > span,
+#sq1-o:checked ~ #sq4-o:checked ~ #sq7-o:checked ~ .board > #sq4 > span,
+#sq1-o:checked ~ #sq4-o:checked ~ #sq7-o:checked ~ .board > #sq7 > span,
+#sq1-x:checked ~ #sq4-x:checked ~ #sq7-x:checked ~ .board > #sq1 > span,
+#sq1-x:checked ~ #sq4-x:checked ~ #sq7-x:checked ~ .board > #sq4 > span,
+#sq1-x:checked ~ #sq4-x:checked ~ #sq7-x:checked ~ .board > #sq7 > span {
+  animation:pulse .5s alternate linear infinite;
+}
+
+/* 2, 5, 8 */
+#sq2-o:checked ~ #sq5-o:checked ~ #sq8-o:checked ~ .board > .square > label,
+#sq2-x:checked ~ #sq5-x:checked ~ #sq8-x:checked ~ .board > .square > label {
+  display:none;
+}
+#sq2-o:checked ~ #sq5-o:checked ~ #sq8-o:checked ~ .board > #sq2 > span,
+#sq2-o:checked ~ #sq5-o:checked ~ #sq8-o:checked ~ .board > #sq5 > span,
+#sq2-o:checked ~ #sq5-o:checked ~ #sq8-o:checked ~ .board > #sq8 > span,
+#sq2-x:checked ~ #sq5-x:checked ~ #sq8-x:checked ~ .board > #sq2 > span,
+#sq2-x:checked ~ #sq5-x:checked ~ #sq8-x:checked ~ .board > #sq5 > span,
+#sq2-x:checked ~ #sq5-x:checked ~ #sq8-x:checked ~ .board > #sq8 > span {
+  animation:pulse .5s alternate linear infinite;
+}
+
+/* 3, 6, 9 */
+#sq3-o:checked ~ #sq6-o:checked ~ #sq9-o:checked ~ .board > .square > label,
+#sq3-x:checked ~ #sq6-x:checked ~ #sq9-x:checked ~ .board > .square > label {
+  display:none;
+}
+#sq3-o:checked ~ #sq6-o:checked ~ #sq9-o:checked ~ .board > #sq3 > span,
+#sq3-o:checked ~ #sq6-o:checked ~ #sq9-o:checked ~ .board > #sq6 > span,
+#sq3-o:checked ~ #sq6-o:checked ~ #sq9-o:checked ~ .board > #sq9 > span,
+#sq3-x:checked ~ #sq6-x:checked ~ #sq9-x:checked ~ .board > #sq3 > span,
+#sq3-x:checked ~ #sq6-x:checked ~ #sq9-x:checked ~ .board > #sq6 > span,
+#sq3-x:checked ~ #sq6-x:checked ~ #sq9-x:checked ~ .board > #sq9 > span {
+  animation:pulse .5s alternate linear infinite;
+}
+
+/* 1, 5, 9 */
+#sq1-o:checked ~ #sq5-o:checked ~ #sq9-o:checked ~ .board > .square > label,
+#sq1-x:checked ~ #sq5-x:checked ~ #sq9-x:checked ~ .board > .square > label {
+  display:none;
+}
+#sq1-o:checked ~ #sq5-o:checked ~ #sq9-o:checked ~ .board > #sq1 > span,
+#sq1-o:checked ~ #sq5-o:checked ~ #sq9-o:checked ~ .board > #sq5 > span,
+#sq1-o:checked ~ #sq5-o:checked ~ #sq9-o:checked ~ .board > #sq9 > span,
+#sq1-x:checked ~ #sq5-x:checked ~ #sq9-x:checked ~ .board > #sq1 > span,
+#sq1-x:checked ~ #sq5-x:checked ~ #sq9-x:checked ~ .board > #sq5 > span,
+#sq1-x:checked ~ #sq5-x:checked ~ #sq9-x:checked ~ .board > #sq9 > span {
+  animation:pulse .5s alternate linear infinite;
+}
+
+/* 3, 5, 7 */
+#sq3-o:checked ~ #sq5-o:checked ~ #sq7-o:checked ~ .board > .square > label,
+#sq3-x:checked ~ #sq5-x:checked ~ #sq7-x:checked ~ .board > .square > label {
+  display:none;
+}
+#sq3-o:checked ~ #sq5-o:checked ~ #sq7-o:checked ~ .board > #sq3 > span,
+#sq3-o:checked ~ #sq5-o:checked ~ #sq7-o:checked ~ .board > #sq5 > span,
+#sq3-o:checked ~ #sq5-o:checked ~ #sq7-o:checked ~ .board > #sq7 > span,
+#sq3-x:checked ~ #sq5-x:checked ~ #sq7-x:checked ~ .board > #sq3 > span,
+#sq3-x:checked ~ #sq5-x:checked ~ #sq7-x:checked ~ .board > #sq5 > span,
+#sq3-x:checked ~ #sq5-x:checked ~ #sq7-x:checked ~ .board > #sq7 > span {
+  animation:pulse .5s alternate linear infinite;
+}
+.btn{
+  color: #f2f2f2;
+  background: #f2f2f2;
+}
+</style>
+</head>
+<body>
+    <form>
+        <!-- radios hold statuses -->
+        <!-- noughts -->
+        <input type="radio" id="sq1-o" name="sq1" class="nought">
+        <input type="radio" id="sq2-o" name="sq2" class="nought">
+        <input type="radio" id="sq3-o" name="sq3" class="nought">
+        <input type="radio" id="sq4-o" name="sq4" class="nought">
+        <input type="radio" id="sq5-o" name="sq5" class="nought">
+        <input type="radio" id="sq6-o" name="sq6" class="nought">
+        <input type="radio" id="sq7-o" name="sq7" class="nought">
+        <input type="radio" id="sq8-o" name="sq8" class="nought">
+        <input type="radio" id="sq9-o" name="sq9" class="nought">
+        <!-- crosses -->
+        <input type="radio" id="sq1-x" name="sq1" class="cross">
+        <input type="radio" id="sq2-x" name="sq2" class="cross">
+        <input type="radio" id="sq3-x" name="sq3" class="cross">
+        <input type="radio" id="sq4-x" name="sq4" class="cross">
+        <input type="radio" id="sq5-x" name="sq5" class="cross">
+        <input type="radio" id="sq6-x" name="sq6" class="cross">
+        <input type="radio" id="sq7-x" name="sq7" class="cross">
+        <input type="radio" id="sq8-x" name="sq8" class="cross">
+        <input type="radio" id="sq9-x" name="sq9" class="cross">
+        
+        <!-- reset button -->
+        <button type="reset" id="restart">Restart</button>
+        
+        <!-- the board for display -->
+        <div class="board">
+          <div id="sq1" class="square">
+            <label class="nought" for="sq1-o"></label>
+            <label class="cross" for="sq1-x"></label>
+            <span class="nought">O</span>
+            <span class="cross">X</span>
+          </div>
+          <div id="sq2" class="square">
+            <label class="nought" for="sq2-o"></label>
+            <label class="cross" for="sq2-x"></label>
+            <span class="nought">O</span>
+            <span class="cross">X</span>
+          </div>   
+          <div id="sq3" class="square">
+            <label class="nought" for="sq3-o"></label>
+            <label class="cross" for="sq3-x"></label>
+            <span class="nought">O</span>
+            <span class="cross">X</span>
+          </div>  
+          <div id="sq4" class="square">
+            <label class="nought" for="sq4-o"></label>
+            <label class="cross" for="sq4-x"></label>
+            <span class="nought">O</span>
+            <span class="cross">X</span>
+          </div>   
+          <div id="sq5" class="square">
+            <label class="nought" for="sq5-o"></label>
+            <label class="cross" for="sq5-x"></label>
+            <span class="nought">O</span>
+            <span class="cross">X</span>
+          </div>   
+          <div id="sq6" class="square">
+            <label class="nought" for="sq6-o"></label>
+            <label class="cross" for="sq6-x"></label>
+            <span class="nought">O</span>
+            <span class="cross">X</span>
+          </div>   
+          <div id="sq7" class="square">
+            <label class="nought" for="sq7-o"></label>
+            <label class="cross" for="sq7-x"></label>
+            <span class="nought">O</span>
+            <span class="cross">X</span>
+          </div>   
+          <div id="sq8" class="square">
+            <label class="nought" for="sq8-o"></label>
+            <label class="cross" for="sq8-x"></label>
+            <span class="nought">O</span>
+            <span class="cross">X</span>
+          </div>   
+          <div id="sq9" class="square">
+            <label class="nought" for="sq9-o"></label>
+            <label class="cross" for="sq9-x"></label>
+            <span class="nought">O</span>
+            <span class="cross">X</span>
+          </div>
+        </div>
+    </form>
+    <button type="button" class="btn btn-success" style="width: 40%; margin-left: 30%; padding: 1%;"><a href="index.html">Quit Game</a></button>
+
+</body>
+
+</html>
